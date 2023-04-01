@@ -19,8 +19,8 @@ y_train = list()
 y_test = list()
 
 if not len(glob.glob('*.h5')):
-    all_train_images = get_data(r'data\Train')
-    all_test_images = get_data(r'data\Test')
+    all_train_images = get_data(r'data/Train')
+    all_test_images = get_data(r'data/Test')
 
     X_train, y_train = append_data(all_train_images)
     X_test, y_test = append_data(all_test_images)
