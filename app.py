@@ -63,5 +63,24 @@ def prediction():
             return jsonify({'response': '#'}), 404
 
 
+@app.route('/accuracy', methods=['GET'])
+def accuracy():
+    if not os.path.exists('accuracy_json.txt'):
+        val = test_loss(X_test, y_test)
+        with open('accuracy_json.txt', 'x') as f:
+            json.dump({'accuracy': val[1]}, f, indent=4)
+
+    with open('accuracy_json.txt', 'r') as f:
+        accuracy_dict = json.load(f)
+
+    return jsonify({'accuracy': accuracy_dict['accuracy']}), 200
+
+
+@app.route('/name', methods=['GET'])
+def model_name():
+    name = glob.glob('*.h5')
+    return jsonify({'name': name[0]})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
