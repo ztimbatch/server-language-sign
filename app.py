@@ -47,5 +47,21 @@ def train_model():
     return jsonify({'model': 'already created'}), 200
 
 
+@app.route('/prediction', methods=['POST'])
+def prediction():
+    if request.method == 'POST':
+        try:
+            frame = request.data
+            image = np.asarray(bytearray(frame), dtype="uint8")
+            # get gray image
+            image = cv2.imdecode(image, cv2.IMREAD_GRAYSCALE)
+
+            class_predict = prediction_image(image)
+
+            return jsonify({'response': class_predict}), 200
+        except cv2.error:
+            return jsonify({'response': '#'}), 404
+
+
 if __name__ == '__main__':
     app.run(debug=True)
